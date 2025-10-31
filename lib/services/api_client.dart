@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import '../helper/shared_prefe.dart';
 
 class ApiClient extends GetxService {
-  static var client = http.Client();
+//  static var client = http.Client();
 
   String bearerToken = '';
 
@@ -25,17 +25,20 @@ class ApiClient extends GetxService {
     };
 
     try {
-      http.Response response = await client.get(
+      debugPrint("===== Get Method =========");
+    var response = await http.get(
         Uri.parse(url),
-        headers: header ?? mainHeaders,
-      );
-      var body = jsonDecode(response.body);
+       );
+
+    debugPrint("================= after request==============");
+
 
       if (isShowResult) {
         debugPrint(
-          "Api call === $url\nHeader ${header ?? mainHeaders}\n body : ${response.body}",
+          "===Api call === $url\nHeader ${header ?? mainHeaders}\n body : ${response.body} ===",
         );
       }
+      var body = jsonDecode(response.body);
 
       return Response(
         body: body,
@@ -45,7 +48,8 @@ class ApiClient extends GetxService {
         statusText: response.reasonPhrase,
       );
     } catch (e) {
-      debugPrint("=== error is : ${e.toString()}");
+      debugPrint("=== error is : ${e.toString()} ===");
+
       return const Response(
         body: {},
         statusCode: 400,

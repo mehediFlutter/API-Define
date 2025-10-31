@@ -13,6 +13,7 @@ class _HomeState extends State<Home> {
   final HomeController homeController = Get.put(HomeController());
 
   getData() async {
+    debugPrint("==== home screen =====");
     homeController.getApi();
   }
 

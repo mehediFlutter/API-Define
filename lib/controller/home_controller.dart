@@ -12,13 +12,13 @@ class HomeController extends GetxController {
     try {
       var response = await apiClient.getData(
         'https://api.restful-api.dev/objects',
-        isShowResult: false,);
+        isShowResult: true,);
       if(response.statusCode == 200){
         getData.value = GetDataModel.fromJsonList(response.body);
-      //  debugPrint("=== data from variable : ${getData.toString()}");
+        debugPrint("=== data from variable : ${getData.toString()}");
       }
     } catch (e) {
-      debugPrint("=== Error is : $e");
+      debugPrint("=== Error is : $e === ");
     }
   }
 }
