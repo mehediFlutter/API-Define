@@ -5,105 +5,91 @@ class GetDataModel {
   String? name;
   Data? data;
 
-  GetDataModel({
-    this.id,
-    this.name,
-    this.data,
-  });
+  GetDataModel({this.id, this.name, this.data});
 
-  factory GetDataModel.fromRawJson(String str) => GetDataModel.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
+  /// Single item
   factory GetDataModel.fromJson(Map<String, dynamic> json) => GetDataModel(
-    id: json["id"],
-    name: json["name"],
-    data: json["data"] == null ? null : Data.fromJson(json["data"]),
+    id: json['id'],
+    name: json['name'],
+    data: json['data'] == null ? null : Data.fromJson(json['data']),
   );
 
+  /// List of items
+  static List<GetDataModel> fromJsonList(List<dynamic> jsonList) {
+    return jsonList.map((e) => GetDataModel.fromJson(e)).toList();
+  }
+
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "data": data?.toJson(),
+    'id': id,
+    'name': name,
+    'data': data?.toJson(),
   };
 }
 
 class Data {
-  String? dataColor;
-  String? dataCapacity;
+  String? color;
+  String? capacity;
   int? capacityGb;
-  double? dataPrice;
-  String? dataGeneration;
+  double? price;
+  String? generation;
   int? year;
   String? cpuModel;
   String? hardDiskSize;
   String? strapColour;
   String? caseSize;
-  String? color;
   String? description;
-  String? capacity;
   double? screenSize;
-  String? generation;
-  String? price;
 
   Data({
-    this.dataColor,
-    this.dataCapacity,
+    this.color,
+    this.capacity,
     this.capacityGb,
-    this.dataPrice,
-    this.dataGeneration,
+    this.price,
+    this.generation,
     this.year,
     this.cpuModel,
     this.hardDiskSize,
     this.strapColour,
     this.caseSize,
-    this.color,
     this.description,
-    this.capacity,
     this.screenSize,
-    this.generation,
-    this.price,
   });
 
-  factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    dataColor: json["color"],
-    dataCapacity: json["capacity"],
-    capacityGb: json["capacity GB"],
-    dataPrice: json["price"]?.toDouble(),
-    dataGeneration: json["generation"],
-    year: json["year"],
-    cpuModel: json["CPU model"],
-    hardDiskSize: json["Hard disk size"],
-    strapColour: json["Strap Colour"],
-    caseSize: json["Case Size"],
-    color: json["Color"],
-    description: json["Description"],
-    capacity: json["Capacity"],
-    screenSize: json["Screen size"]?.toDouble(),
-    generation: json["Generation"],
-    price: json["Price"],
+    color: json['color'] ?? json['Color'],
+    capacity: json['capacity'] ?? json['Capacity'],
+    capacityGb: json['capacity GB'],
+    price: json['price'] != null
+        ? (json['price'] is int
+        ? (json['price'] as int).toDouble()
+        : json['price'] is String
+        ? double.tryParse(json['price'])
+        : json['price'])
+        : json['Price'] != null
+        ? double.tryParse(json['Price'].toString())
+        : null,
+    generation: json['generation'] ?? json['Generation'],
+    year: json['year'],
+    cpuModel: json['CPU model'],
+    hardDiskSize: json['Hard disk size'],
+    strapColour: json['Strap Colour'],
+    caseSize: json['Case Size'],
+    description: json['Description'],
+    screenSize: json['Screen size']?.toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
-    "color": dataColor,
-    "capacity": dataCapacity,
-    "capacity GB": capacityGb,
-    "price": dataPrice,
-    "generation": dataGeneration,
-    "year": year,
-    "CPU model": cpuModel,
-    "Hard disk size": hardDiskSize,
-    "Strap Colour": strapColour,
-    "Case Size": caseSize,
-    "Color": color,
-    "Description": description,
-    "Capacity": capacity,
-    "Screen size": screenSize,
-    "Generation": generation,
-    "Price": price,
+    'color': color,
+    'capacity': capacity,
+    'capacity GB': capacityGb,
+    'price': price,
+    'generation': generation,
+    'year': year,
+    'CPU model': cpuModel,
+    'Hard disk size': hardDiskSize,
+    'Strap Colour': strapColour,
+    'Case Size': caseSize,
+    'Description': description,
+    'Screen size': screenSize,
   };
 }

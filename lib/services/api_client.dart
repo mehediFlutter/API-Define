@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../helper/shared_prefe.dart';
 
-class ApiClient extends GetxService{
+class ApiClient extends GetxService {
   static var client = http.Client();
 
   String bearerToken = '';
@@ -13,6 +13,7 @@ class ApiClient extends GetxService{
     String url, {
     Map<String, dynamic>? query,
     Map<String, String>? header,
+    bool isShowResult = false,
   }) async {
     /// ============== get bearer token ==========================
     bearerToken = await SharePrefsHelper.getString('bearerToken');
@@ -24,12 +25,17 @@ class ApiClient extends GetxService{
     };
 
     try {
-      debugPrint("Api call === $url\nHeader ${header ?? mainHeaders}");
       http.Response response = await client.get(
         Uri.parse(url),
         headers: header ?? mainHeaders,
       );
       var body = jsonDecode(response.body);
+
+      if (isShowResult) {
+        debugPrint(
+          "Api call === $url\nHeader ${header ?? mainHeaders}\n body : ${response.body}",
+        );
+      }
 
       return Response(
         body: body,
@@ -41,7 +47,10 @@ class ApiClient extends GetxService{
     } catch (e) {
       debugPrint("=== error is : ${e.toString()}");
       return const Response(
-          body: {}, statusCode: 400, statusText: "Something went wrong");
+        body: {},
+        statusCode: 400,
+        statusText: "Something went wrong",
+      );
     }
   }
 }
