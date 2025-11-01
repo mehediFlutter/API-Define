@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:oktoast/oktoast.dart';
 
 import 'UI/screen/home.dart';
 
@@ -13,11 +14,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return OKToast(child: GetMaterialApp(
       title: 'Flutter Demo',
 
       home:  Home(),
-    );
+    ));
   }
 }
 

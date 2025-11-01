@@ -1,10 +1,12 @@
 import 'package:api_define/model/get_data_model.dart';
 import 'package:api_define/services/api_client.dart';
+import 'package:api_define/utils/urls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   ApiClient apiClient = ApiClient();
+
   RxList<GetDataModel> getData = <GetDataModel>[].obs;
   RxBool getDataProgress = false.obs;
 
@@ -12,13 +14,40 @@ class HomeController extends GetxController {
     try {
       var response = await apiClient.getData(
         'https://api.restful-api.dev/objects',
-        isShowResult: true,);
-      if(response.statusCode == 200){
+        isShowResult: false,
+      );
+      if (response.statusCode == 200) {
         getData.value = GetDataModel.fromJsonList(response.body);
-        debugPrint("=== data from variable : ${getData.toString()}");
+        //  debugPrint("=== data from variable : ${getData.toString()}");
       }
     } catch (e) {
       debugPrint("=== Error is : $e === ");
+    }
+  }
+
+  Future postApi() async {
+    debugPrint("=== POST URL : $postURL");
+    var body = {
+      "name": "Apple MacBook Pro 16",
+      "data": {
+        "year": 2019,
+        "price": 1849.99,
+        "CPU model": "Intel Core i9",
+        "Hard disk size": "1 TB",
+      },
+    };
+    try {
+      var response = await apiClient.postData(
+        postURL,
+        body: body,
+        header: {"Content-Type": "application/json"},
+        isShowResult: true,
+      );
+      if (response.statusCode == 200) {
+
+      }
+    } catch (e) {
+      debugPrint("=== Error is : $e ===");
     }
   }
 }
