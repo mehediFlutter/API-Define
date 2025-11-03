@@ -11,6 +11,8 @@ class HomeController extends GetxController {
   RxBool getDataProgress = false.obs;
 
   Future getApi() async {
+    getDataProgress.value = true;
+    debugPrint("=== Get Data In Progress : ${getDataProgress.value}");
     try {
       var response = await apiClient.getData(
         'https://api.restful-api.dev/objects',
@@ -18,9 +20,12 @@ class HomeController extends GetxController {
       );
       if (response.statusCode == 200) {
         getData.value = GetDataModel.fromJsonList(response.body);
-        //  debugPrint("=== data from variable : ${getData.toString()}");
+        getDataProgress.value = false;
+debugPrint("=== Get Data In Progress : ${getDataProgress.value}");
       }
     } catch (e) {
+      getDataProgress.value = false;
+      debugPrint("=== Get Data In Progress : ${getDataProgress.value}");
       debugPrint("=== Error is : $e === ");
     }
   }

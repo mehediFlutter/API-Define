@@ -45,9 +45,7 @@ class SharePrefsHelper {
 
   static Future<bool> setListOfString(String key, List<String> value) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-
     var setListData = await preferences.setStringList(key, value);
-
     return setListData;
   }
 
